@@ -23,15 +23,35 @@ router.get('/:customer_id', async (req, res) => {
   });
 })
 
-router.post('/', async (req, res) => {
-  const newCustomerId = await customerModel.add(req.body);
-  const newCustomer = await customerModel.single(newCustomerId);
-  res.status(httpStatus.CREATED).json({
-    status_code: httpStatus.CREATED,
-    messages: ['Added customer successfully 🎉'],
-    data: {
-      newCustomer
-    }
+router.post('/', async (req, res, next) => {
+  try {
+    const newCustomerId = await customerModel.add(req.body);
+    const newCustomer = await customerModel.single(newCustomerId);
+    res.status(httpStatus.CREATED).json({
+      status_code: httpStatus.CREATED,
+      messages: ['Added customer successfully 🎉'],
+      data: {
+        newCustomer
+      }
+    })
+  } catch (err) {
+    next(err);
+  }
+})
+
+router.put('/:customer_id', async (req, res) => {
+  const result = await customerModel.update(req.params.customer_id, req.body);
+  if (result === 0) {
+    return res.status(httpStatus.NOT_FOUND).json({
+      status_code: httpStatus.NOT_FOUND,
+      error_messages: ['Customer not found.']
+    });
+  }
+
+  res.status(httpStatus.OK).json({
+    status_code: httpStatus.OK,
+    messages: ['Updated customer successfully 🎉'],
+    data: {}
   })
 })
 

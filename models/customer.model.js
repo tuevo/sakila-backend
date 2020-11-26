@@ -24,9 +24,14 @@ module.exports = {
     return db('customer')
       .insert(data)
   },
+  update(customer_id, data) {
+    return db('customer')
+      .where('customer_id', customer_id)
+      .update(data)
+  },
   remove(customer_id) {
     return db('customer')
       .where('customer_id', customer_id)
-      .del();
+      .del()
   }
 };
