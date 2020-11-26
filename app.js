@@ -9,6 +9,8 @@ app.use(morgan('dev'));
 app.use(cors());
 
 app.use('/api/customers', require('./routes/customer.route'));
+app.use('/api/addresses', require('./routes/address.route'));
+app.use('/api/stores', require('./routes/store.route'));
 
 app.use(function (req, res, next) {
   res.status(404).send({
