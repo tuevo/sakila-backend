@@ -1,10 +1,12 @@
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
-const morgan = require('morgan')('dev');
+const morgan = require('morgan');
+const cors = require('cors');
 
 app.use(express.json());
-app.use(morgan);
+app.use(morgan('dev'));
+app.use(cors());
 
 app.use('/api/customers', require('./routes/customer.route'));
 

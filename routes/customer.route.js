@@ -4,7 +4,11 @@ const customerModel = require('../models/customer.model');
 
 router.get('/', async (req, res) => {
   const customers = await customerModel.all();
-  res.status(httpStatus.OK).json(customers);
+  res.status(httpStatus.OK).json({
+    data: {
+      customers
+    }
+  });
 })
 
 module.exports = router;
