@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const httpStatus = require('http-status');
 const customerModel = require('../models/customer.model');
+const validate = require('../middlewares/validate.mdw');
+const customerSchema = require('../schemas/customer.json');
 
 router.get('/', async (req, res) => {
   const customers = await customerModel.all();
@@ -23,23 +25,19 @@ router.get('/:customer_id', async (req, res) => {
   });
 })
 
-router.post('/', async (req, res, next) => {
-  try {
-    const newCustomerId = await customerModel.add(req.body);
-    const newCustomer = await customerModel.single(newCustomerId);
-    res.status(httpStatus.CREATED).json({
-      status_code: httpStatus.CREATED,
-      messages: ['Added customer successfully 🎉'],
-      data: {
-        newCustomer
-      }
-    })
-  } catch (err) {
-    next(err);
-  }
+router.post('/', validate(customerSchema), async (req, res, next) => {
+  const newCustomerId = await customerModel.add(req.body);
+  const newCustomer = await customerModel.single(newCustomerId);
+  res.status(httpStatus.CREATED).json({
+    status_code: httpStatus.CREATED,
+    messages: ['Added customer successfully 🎉'],
+    data: {
+      newCustomer
+    }
+  })
 })
 
-router.put('/:customer_id', async (req, res) => {
+router.put('/:customer_id', validate(customerSchema), async (req, res) => {
   const result = await customerModel.update(req.params.customer_id, req.body);
   if (result === 0) {
     return res.status(httpStatus.NOT_FOUND).json({
