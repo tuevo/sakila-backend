@@ -16,7 +16,8 @@
       "format": "email"
     },
     "dob": {
-      "type": "string"
+      "type": "string",
+      "format": "YYYY-MM-DD"
     },
     "username": {
       "type": "string"
