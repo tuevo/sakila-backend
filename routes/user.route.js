@@ -17,7 +17,7 @@ router.post('/', validate(userSchema), async (req, res) => {
   const isDuplicateByUsername = await userModel.isDuplicateByUsername(user.username);
   if (isDuplicateByUsername) {
     return res.status(httpStatus.BAD_REQUEST).json({
-      error_messages: ['username in used.']
+      error_messages: ['Username in used.']
     })
   }
 
