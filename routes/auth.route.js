@@ -50,7 +50,7 @@ router.post('/refresh', validate(authRefreshSchema), async (req, res) => {
     async (err, payload) => {
       if (err) {
         return res.status(httpStatus.UNAUTHORIZED).json({
-          messages: [err.message]
+          error_messages: [err.message]
         });
       }
 

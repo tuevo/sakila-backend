@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
   jwt.verify(accessToken, globalConfig.JWT_SECRET_KEY, (err, payload) => {
     if (err) {
       return res.status(httpStatus.UNAUTHORIZED).json({
-        messages: [err.message]
+        error_messages: [err.message]
       });
     }
 
