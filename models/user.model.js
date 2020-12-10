@@ -16,5 +16,9 @@ module.exports = {
   async isDuplicateByUsername(username) {
     const users = await db('users').where('username', username);
     return users.length > 0;
+  },
+  async isValidRefreshToken(id, refreshToken) {
+    const users = await db('users').where('id', id).andWhere('rfToken', refreshToken);
+    return users.length > 0;
   }
 };
