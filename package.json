@@ -20,12 +20,15 @@
   "homepage": "https://github.com/tuevo/sakila-backend#readme",
   "dependencies": {
     "ajv": "^6.12.6",
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "http-status": "^1.5.0",
+    "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.12",
     "morgan": "^1.10.0",
     "mysql2": "^2.2.5",
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6",
+    "randomstring": "^1.1.5"
   }
 }

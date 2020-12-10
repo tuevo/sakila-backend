@@ -1,10 +1,11 @@
 const router = require('express').Router();
 const httpStatus = require('http-status');
-const customerModel = require('../models/customer.model');
 const validate = require('../middlewares/validate.mdw');
+const customerModel = require('../models/customer.model');
 const customerSchema = require('../schemas/customer.json');
+const auth = require('../middlewares/auth.mdw');
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   const customers = await customerModel.all();
   customers.sort((a, b) => b.create_date - a.create_date);
   res.status(httpStatus.OK).json({
@@ -15,7 +16,7 @@ router.get('/', async (req, res) => {
   });
 })
 
-router.get('/:customer_id', async (req, res) => {
+router.get('/:customer_id', auth, async (req, res) => {
   const customer = await customerModel.single(req.params.customer_id);
   res.status(httpStatus.OK).json({
     status_code: httpStatus.OK,
@@ -25,7 +26,7 @@ router.get('/:customer_id', async (req, res) => {
   });
 })
 
-router.post('/', validate(customerSchema), async (req, res, next) => {
+router.post('/', auth, validate(customerSchema), async (req, res, next) => {
   const newCustomerId = await customerModel.add(req.body);
   const newCustomer = await customerModel.single(newCustomerId);
   res.status(httpStatus.CREATED).json({
@@ -37,7 +38,7 @@ router.post('/', validate(customerSchema), async (req, res, next) => {
   })
 })
 
-router.put('/:customer_id', validate(customerSchema), async (req, res) => {
+router.put('/:customer_id', auth, validate(customerSchema), async (req, res) => {
   const result = await customerModel.update(req.params.customer_id, req.body);
   if (result === 0) {
     return res.status(httpStatus.NOT_FOUND).json({
